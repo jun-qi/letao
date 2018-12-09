@@ -49,6 +49,26 @@
     <script src="../res/mui/js/mui.min.js"></script>
 
     <script>
+
+        // 获取地址参数,如果有参数url,则登录成功后跳转过去
+        // 如果没有,则跳转到默认的页面
+        // console.log(location.search);
+
+        // 将参数里的 ？去掉
+        var search = location.search.slice(1);
+
+        // 通过正则表达式.获取地址的参数
+        var reg = /url=(.+)/;
+        var match = reg.exec(search); 
+        // console.log(match[1]);
+        
+        // 获取url的值
+        var url = match && match[1];
+        // console.log(url);
+        // 如果有url,那么就跳转到url,没有就跳转到默认的首页 /
+        url = url || '/';
+
+        // 登录功能
         $('form').on('submit', function () {
             // 获取表单数据
             var data = $(this).serialize();
@@ -60,7 +80,7 @@
                 data: data,
                 success: function (info) {
                     // console.log(info);
-                    if (info.success) return location.href = '/';
+                    if (info.success) return location.href = url;
                     alert(info.message);
                 }
             });
